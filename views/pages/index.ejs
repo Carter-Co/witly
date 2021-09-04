@@ -1,0 +1,14 @@
+   <%- include("../partials/_head") -%>   
+          <h1>Women in Tech</h1>
+          <%- include("../partials/_head") -%>
+          <% people.forEach(person => { %>
+            <a href="/profile/<%= person.id %>">
+                <p><%= person.name %></p>
+            </a>
+          <% }) %> 
+          <%- include("../partials/_footer") -%>
+          <%- include("../partials/_head") -%>
+          <h1><%= person.name %></h1>
+          <%- include("../partials/_footer") -%>
+    </body>
+</html>
