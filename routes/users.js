@@ -8,7 +8,7 @@ import {
 
 const router = express.Router();
 
-router.get('/create-account', createUserFormController, createUserController)
+router.get('/create-account', createUserFormController);
 router.post('/create-account', createUserController);
 router.get('/login', loginFormController);
 router.post('/login',

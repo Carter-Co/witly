@@ -27,6 +27,7 @@ export const fetchPeopleController = async function(req, res) {
 export const fetchPersonController = function(req, res) {
     const personId = req.params.id;
     const personData = fetchPerson(personId)
+    console.log (personData)
     res.render('profile', { person: personData})
 }
 

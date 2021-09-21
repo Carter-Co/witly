@@ -6,16 +6,12 @@
       <h2> "Come on in ... we have snacks"
       </h2>
           <!-- <h1>Women in Tech</h1> -->
-        <% image.forEach(image => {%>
-        <p><%= image.name %></p>
-        <% }) %>
     </div>
-
-          <%- include("../partials/_head") -%>
           <% people.forEach(person => { %>
             <a href="/profile/<%= person.id %>">
                 <p><%= person.name %></p>
             </a>
+            <img src=<%= person.photo %>
           <% }) %> 
 
           </body>
