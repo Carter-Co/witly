@@ -3,21 +3,31 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import session from 'express-session';
 import bcrypt from 'bcrypt';8
-
+import connectPgSimple from 'connect-pg-simple';
+import dotenv from 'dotenv';
 import { pool } from './db.js';
 import  { peopleData } from './fixtures/people.js';
 import peopleRouter from './routes/people.js';
 import userRouter from './routes/users.js';
+
+dotenv.config();
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 app.use(express.json());
 
-app.use(session({secret: 'averygoodsecret',
-resave: true,
-saveUninitialized: true,
-})
+app.use(
+    session({
+        store: new (connectPgSimple(session))({
+            createTableIfMissing: true,
+            pool: pool,
+        }),
+        secret: process.env.COOKIE_SECRET,
+        resave: false,
+        cookie: { maxAge: 30 * 24 *60 *60 *1000  },
+        saveUninitiatialized: true,
+    })
 );
 
 app.use(passport.initialize());
