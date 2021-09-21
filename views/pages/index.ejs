@@ -1,4 +1,7 @@
-   <%- include("../partials/_head") -%>   
+   <%- include("../partials/_head") -%> 
+   <% if (user !== null) { %>
+    <p>You are logged in as <%= user.username %></p>
+    <% } %>  
    <div>
       <h2> "Come on in ... we have snacks"
       </h2>
@@ -14,10 +17,6 @@
                 <p><%= person.name %></p>
             </a>
           <% }) %> 
-
-          <%- include("../partials/_footer") -%>
-          <%- include("../partials/_head") -%>
-          <h1><%= person.name %></h1>
 
           </body>
           <%- include("../partials/_footer") -%>

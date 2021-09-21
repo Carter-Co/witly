@@ -1,36 +1,70 @@
 import express from 'express';
-import { peopleData } from './fixtures/people.js' 
-import { imageData } from './fixtures/images.js'
+import passport from 'passport';
+import LocalStrategy from 'passport-local';
+import session from 'express-session';
+import bcrypt from 'bcrypt';8
 
+import { pool } from './db.js';
+import  { peopleData } from './fixtures/people.js';
+import peopleRouter from './routes/people.js';
+import userRouter from './routes/users.js';
 
 const app = express();
-app.use(express.static('static'))
+
+app.use(express.urlencoded({ extended: true, limit: '5mb' }));
+app.use(express.json());
+
+app.use(session({secret: 'averygoodsecret',
+resave: true,
+saveUninitialized: true,
+})
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use
+    (new LocalStrategy(async function (username, password, done) {
+        let result;
+        try {const sql = 'SELECT * FROM users WHERE username = $1';
+        const values = [username];
+        result = await pool.query(sql, values);
+    } catch (error) {
+        return done(error);}
+        if (!result) {
+            return done(null, false, { message: 'Incorrect username.' });
+        }
+        const match = await bcrypt.compare(password,result.rows[0].password);
+        if (match) {
+            return done(null, result);}
+            return done(null, false, { message: 'Incorrect password.' });
+        })
+    );
+passport.serializeUser(function (user, done) {
+    let userObject = {
+        id: user.rows[0].id,
+        username: user.rows[0].username,}
+        ;
+        done(null, userObject);
+    });
+passport.deserializeUser(async function (user, done) {
+    const sql = 'SELECT * FROM users WHERE username = $1';
+    const values = [user.username];
+    let result;
+        try {
+            result = await pool.query(sql, values);
+            done(null, result);
+        } catch (error) {done(err, result);
+    }
+});
+
+app.use(express.static('static'));
 app.set('view engine', 'ejs');
 app.set('views', './views/pages/');
-app.use( express.static( "public" ) );
 
 app.listen(3000, () => {
-    console.log('Server started!')
-
+    console.log('Server started!');
 });
 
-app.get('/', (req, res) => {
-    // res.send ('Hello, World!')
-    console.log(peopleData);
-    res.render('index', { people: peopleData});
-});
-
-app.get('/profile/:id', (req, res) => {
-    // console.log(req)
-    let personId = req.params.id;
-    let person;
-    peopleData.forEach((personData) => {
-        if(personData.id == personId) {
-            person = personData;
-            return false;
-        }
-    })
-    console.log(person);
-    res.render('profile', { person: person}); 
-    
-})
+app.use('/', peopleRouter);
+app.use('/', userRouter);
