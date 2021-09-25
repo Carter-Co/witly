@@ -24,11 +24,18 @@ export const fetchPeopleController = async function(req, res) {
     }
 }
 
-export const fetchPersonController = function(req, res) {
-    const personId = req.params.id;
-    const personData = fetchPerson(personId)
-    console.log (personData)
-    res.render('profile', { person: personData})
+export const fetchPersonController = async function(req, res) {
+    let personId = req.params.id;
+    const personData = await fetchPerson(personId);
+    if (personData) {
+        res.render('profile', { person: personData });
+    } else {
+        res.send('Not authorized.');
+    }
+    // const personId = req.params.id;
+    // const personData = await fetchPerson(personId)
+    // console.log (personData)
+    // res.render('profile', { person: personData})
 }
 
 export const createPersonFormController = function(req, res) {

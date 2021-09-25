@@ -22,7 +22,16 @@ export const fetchPeople = async function (name) {
     return response.json();
 }
 
-export const fetchPerson = function(id) {
+export const fetchPerson = async function(id) {
+    const response = await fetch(`${API_URL}people/${id}`, {
+        headers: {
+            Authorization: `Token ${API_KEY}`,
+        },
+    });
+    if (response.status == 401) {
+        return;
+    }
+    return response.json();
     // let person;
     // let peopleData = fetchPeople();
     // peopleData.foreach((personData) => {

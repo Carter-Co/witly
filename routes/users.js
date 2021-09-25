@@ -12,11 +12,10 @@ router.get('/create-account', createUserFormController);
 router.post('/create-account', createUserController);
 router.get('/login', loginFormController);
 router.post('/login',
-passport.authenticate('local', {
+    passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/login',
-        }),
-        loginFormController);
+        }))
 router.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');

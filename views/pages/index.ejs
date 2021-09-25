@@ -3,17 +3,22 @@
     <p>You are logged in as <%= user.username %></p>
     <% } %>  
    <div>
+      <form id="search-form" action="/" method="GET">
+        <input name="name" id="name-query" type="text" />
+        <input type="submit" value="Search" />
+      </form>
       <h2> "Come on in ... we have snacks"
       </h2>
           <!-- <h1>Women in Tech</h1> -->
     </div>
+    <div>
           <% people.forEach(person => { %>
             <a href="/profile/<%= person.id %>">
                 <p><%= person.name %></p>
+                <img src=<%= person.photo %>
             </a>
-            <img src=<%= person.photo %>
           <% }) %> 
-
-          </body>
+          </div>
+  </body>
           <%- include("../partials/_footer") -%>
 </html>

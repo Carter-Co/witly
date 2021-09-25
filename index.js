@@ -33,14 +33,16 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use
-    (new LocalStrategy(async function (username, password, done) {
+passport.use(
+    new LocalStrategy(async function (username, password, done) {
         let result;
-        try {const sql = 'SELECT * FROM users WHERE username = $1';
+        try {
+            const sql = 'SELECT * FROM users WHERE username = $1';
         const values = [username];
         result = await pool.query(sql, values);
     } catch (error) {
-        return done(error);}
+        return done(error);
+    }
         if (!result) {
             return done(null, false, { message: 'Incorrect username.' });
         }
@@ -50,6 +52,7 @@ passport.use
             return done(null, false, { message: 'Incorrect password.' });
         })
     );
+
 passport.serializeUser(function (user, done) {
     let userObject = {
         id: user.rows[0].id,
@@ -57,6 +60,7 @@ passport.serializeUser(function (user, done) {
         ;
         done(null, userObject);
     });
+
 passport.deserializeUser(async function (user, done) {
     const sql = 'SELECT * FROM users WHERE username = $1';
     const values = [user.username];
