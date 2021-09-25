@@ -18,15 +18,27 @@
             <div class="bg-img">
                 <div class="container">
                   <div class="topnav">
-                    <a href="#home">Home</a>
-                    <a href="#profiles">Profiles</a>
-                    <a href="#contact">Contact</a>
-                    <a href="#about">About</a>
-                    <a href="#login">Login</a>
+                    <a href="/">Home</a>
+                    <a href="/contact">Contact</a>
+                    <a href="/about">About</a>
+                    <a href="/login">Login</a>
                   </div>
                 </div>
               </div>
         </header>
+
+        <div class="Navbar" id="TopNavbar">
+            <% if (user !== null) { %>
+                <p>You are logged in as <%= user.username %></p>
+                <% } %>
+            <% if (user !== null) { %>
+                <a href="/profile" class="publish"> Publish</a>
+                <a href="/logout" class="log_in_out">Logout</a>
+            <% } else { %>
+                <a href="/login" class="log_in_out">Login</a>
+                <a href="/create-account" class="create-account_button">Create Account</a>
+            <% } %>
+        </div>
 
             <!-- {% include './nav.html' %} -->
 
