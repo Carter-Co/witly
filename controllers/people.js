@@ -15,20 +15,50 @@ export const fetchPeopleController = async function(req, res) {
     }    
     const peopleData = await fetchPeople(name);
     if (peopleData) {
-     res.render('index', { 
-         people: peopleData,
-         user:user,
+        const SortedPeopleData = peopleData.sort(function(a,b){
+                var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+                var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+                if (nameA < nameB) {
+                  return -1;
+                }
+                if (nameA > nameB) {
+                  return 1;
+                }
+                // names must be equal
+                return 0;
+              });
+
+        res.render('index', { 
+            people: SortedPeopleData,
+            user: user, 
         });
     } else {
-        res.send("Not authorized.")
+        res.send("Not authorized.");
     }
-}
+};
+//      res.render('index', { 
+//          people: peopleData,
+//          user:user,
+//         });
+//     } else {
+//         res.send("Not authorized.")
+//     }
+// }
 
 export const fetchPersonController = async function(req, res) {
     let personId = req.params.id;
     const personData = await fetchPerson(personId);
+    let user;
+    if (req.isAuthenticated()) {
+        user = {
+            id: req.user.rows[0].id,
+            username: req.user.rows[0].username,
+        };
+    } else {
+        user = null;
+    }    
     if (personData) {
-        res.render('profile', { person: personData });
+        res.render('profile', { person: personData, user: user });
     } else {
         res.send('Not authorized.');
     }
@@ -39,7 +69,16 @@ export const fetchPersonController = async function(req, res) {
 }
 
 export const createPersonFormController = function(req, res) {
-    res.render('newProfile')
+    let user;
+    if (req.isAuthenticated()) {
+        user = {
+            id: req.user.rows[0].id,
+            username: req.user.rows[0].username,
+        };
+    } else {
+        user = null;
+    }
+    res.render('newProfile', { person: personData, user: user } )
 
 }
 
@@ -64,5 +103,6 @@ export const createPersonController = async function (req, res) {
           res.send('Error.');
     }
 }; 
+
 
 

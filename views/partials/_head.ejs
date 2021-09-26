@@ -15,40 +15,30 @@
                     <h1><img src="/images/witlybanner.gif"></h1>
                 </a>
             </div>
-            <div class="bg-img">
-                <div class="container">
-                  <div class="topnav">
-                    <a href="/">Home</a>
-                    <a href="/contact">Contact</a>
-                    <a href="/about">About</a>
-                    <a href="/login">Login</a>
-                  </div>
-                </div>
-              </div>
-        </header>
+            <nav class="bg-img">
+                      <ul class="nav-links">
+                      <li><a href="/">Home</a></li> 
+                      <li><a href="/contact">Contact</a></li> 
+                      <li><a href="/about">About</a></li> 
+                    </ul>
+                    <% if (user !== null) { %>
+                        <p>You are logged in as <%= user.username %></p>
+                        <% } %>
+                    <% if (user !== null) { %>
+                        <a href="/profile" class="publish"> Publish</a>
+                        <a href="/logout" class="log_in_out">Logout</a>
+                    <% } else { %>
+                        <a href="/create-account" class="create-account_button">Create Account</a>
+                    <% } %>
+                    <form id="search-form" action="/" method="GET">
+                        <input name="name" id="name-query" type="text" />
+                        <input type="submit" value="Search" />
+                      </form>
+                    <a class="cta" href="/login">Login</a>
+            </nav>
+       </header>
 
-        <div class="Navbar" id="TopNavbar">
-            <% if (user !== null) { %>
-                <p>You are logged in as <%= user.username %></p>
-                <% } %>
-            <% if (user !== null) { %>
-                <a href="/profile" class="publish"> Publish</a>
-                <a href="/logout" class="log_in_out">Logout</a>
-            <% } else { %>
-                <a href="/login" class="log_in_out">Login</a>
-                <a href="/create-account" class="create-account_button">Create Account</a>
-            <% } %>
+        <div class="navbar">
         </div>
 
-            <!-- {% include './nav.html' %} -->
-
-            <!-- <nav>
-                <a href="">Home</a>
-                {% if request.user.is_authenticated %}
-                    <a href="#">{{ user.user }}</a>
-                    <a href="">Logout</a>
-                {% else %} #double check with cohort
-                    <a href="">Login</a>
-                    <a href="">Create Account</a>
-                {% endif %}
-                </nav> -->
+            

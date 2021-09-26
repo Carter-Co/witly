@@ -2,43 +2,21 @@
    <% if (user !== null) { %>
     <p>You are logged in as <%= user.username %></p>
     <% } %>  
+  
    <div>
-      <form id="search-form" action="/" method="GET">
-        <input name="name" id="name-query" type="text" />
-        <input type="submit" value="Search" />
-      </form>
       <h2> "Come on in ... we have snacks"
       </h2>
+      
           <!-- <h1>Women in Tech</h1> -->
     </div>
-    <div>
+    <div class="profiles">
           <% people.forEach(person => { %>
-            <a href="/profile/<%= person.id %>">
+            <a class="profile" href="/profile/<%= person.id %>">
                 <p><%= person.name %></p>
                 <img src=<%= person.photo %>
             </a>
           <% }) %> 
     </div>
-    <div class="photos">
-      <div class="photo-row">
-          <div class="photo-wrapper">
-            <a class="fancybox" rel="group" href=""><img class="pending-photo" src="http://blog.blogcatalog.com/wp-content/uploads/mario-300x300.jpg" alt=""></a>
-          </div>
-         <div class="photo-wrapper">
-            <a class="fancybox" rel="group" href=""><img class="pending-photo" src="http://blog.blogcatalog.com/wp-content/uploads/mario-300x300.jpg" alt=""></a>
-          </div>
-          <div class="photo-wrapper">
-            <a class="fancybox" rel="group" href=""><img class="pending-photo" src="http://blog.blogcatalog.com/wp-content/uploads/mario-300x300.jpg" alt=""></a>
-          </div>
-      </div>
-      <div class="photo-row">
-          <div class="photo-wrapper">
-            <a class="fancybox" rel="group" href=""><img class="pending-photo" src="http://blog.blogcatalog.com/wp-content/uploads/mario-300x300.jpg" alt=""></a>
-          </div>
-          <div class="photo-wrapper">
-            <a class="fancybox" rel="group" href=""><img class="pending-photo" src="http://blog.blogcatalog.com/wp-content/uploads/mario-300x300.jpg" alt=""></a>
-          </div>
-      </div>
 </div>
 
   </body>
